@@ -31,3 +31,6 @@ jobs:
       
       - name: List all pods in the cluster
         run: kubectl get pods -A
+
+      - name: Enable the NGINX ingress controller
+        run: minikube addons enable ingress
