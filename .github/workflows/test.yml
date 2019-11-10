@@ -47,11 +47,11 @@ jobs:
 
       - name: Verify web app is reachable at the minikube IP
         run: |
-          set +e
           export ip=$(sudo minikube ip)
           echo "minikube IP: $ip"
           curl $ip
-          until $(curl -H "Host: hello-world.info" $ip); do
-            printf '.'
+          until $(curl --fail --head --header "Host: hello-world.info" --output /dev/null --silent $ip); do
+            printf "."
             sleep 5
           done
+        timeout-minutes: 5
