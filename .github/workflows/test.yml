@@ -47,6 +47,6 @@ jobs:
 
       - name: Verify ingress is reachable at the minikube IP
         run: |
-          local ip=$(sudo minikube ip)
+          export ip=$(sudo minikube ip)
           echo "minikube IP: $ip"
           curl $ip
