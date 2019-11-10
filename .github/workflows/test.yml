@@ -36,23 +36,39 @@ jobs:
       - name: Enable the NGINX ingress controller
         run: sudo minikube addons enable ingress
 
-      - name: Deploy a web app
-        run: kubectl run web --image=gcr.io/google-samples/hello-app:1.0 --port=8080
+      - name: Deploy web service
+        run: |
+          kubectl run web --image=gcr.io/google-samples/hello-app:1.0 --port=8080
+          kubectl expose deployment web --target-port=8080 --type=NodePort
 
-      - name: Expose the web app deployment
-        run: kubectl expose deployment web --target-port=8080 --type=NodePort
+      - name: Deploy web2 service
+        run: |
+          kubectl run web2 --image=gcr.io/google-samples/hello-app:2.0 --port=8080
+          kubectl expose deployment web2 --target-port=8080 --type=NodePort
 
       - name: Create the ingress resource
         run: kubectl apply -f example-ingress.yaml
 
-      - name: Verify web app is reachable at the minikube IP
+      - name: Verify web service is reachable
         run: |
           set +e
           export ip=$(sudo minikube ip)
           echo "minikube IP: $ip"
-          curl $ip
           until $(curl --fail --head --header "Host: hello-world.info" --output /dev/null --silent $ip); do
-            printf "."
+            echo "..."
             sleep 5
           done
+          curl --header "Host: hello-world.info" $ip
+        timeout-minutes: 5
+
+      - name: Verify web2 service is reachable
+        run: |
+          set +e
+          export ip=$(sudo minikube ip)
+          echo "minikube IP: $ip"
+          until $(curl --fail --head --header "Host: hello-world.info/v2" --output /dev/null --silent $ip); do
+            echo "..."
+            sleep 5
+          done
+          curl --header "Host: hello-world.info/v2" $ip
         timeout-minutes: 5
