@@ -45,8 +45,12 @@ jobs:
       - name: Create the ingress resource
         run: kubectl apply -f example-ingress.yaml
 
-      - name: Verify ingress is reachable at the minikube IP
+      - name: Verify web app is reachable at the minikube IP
         run: |
           export ip=$(sudo minikube ip)
           echo "minikube IP: $ip"
           curl $ip
+          until $(curl -H "Host: hello-world.info" $ip); do
+            printf '.'
+            sleep 5
+          done
