@@ -35,3 +35,6 @@ jobs:
 
       - name: Enable the NGINX ingress controller
         run: sudo minikube addons enable ingress
+
+      - name: Deploy a web app
+        run: kubectl run web --image=gcr.io/google-samples/hello-app:1.0 --port=8080
