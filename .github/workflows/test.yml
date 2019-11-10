@@ -47,6 +47,7 @@ jobs:
 
       - name: Verify web app is reachable at the minikube IP
         run: |
+          set +e
           export ip=$(sudo minikube ip)
           echo "minikube IP: $ip"
           curl $ip
