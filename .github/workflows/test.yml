@@ -39,6 +39,9 @@ jobs:
       - name: Deploy a web app
         run: kubectl run web --image=gcr.io/google-samples/hello-app:1.0 --port=8080
 
+      - name: Expose the web app deployment
+        run: kubectl expose deployment web --target-port=8080 --type=NodePort
+
       - name: Create the ingress resource
         run: kubectl apply -f example-ingress.yaml
 
