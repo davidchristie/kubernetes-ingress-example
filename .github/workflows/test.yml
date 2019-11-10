@@ -25,7 +25,7 @@ jobs:
         env:
           # To use kubectl or minikube commands as your own user, you may need to relocate them.
           # This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
-          CHANGE_MINIKUBE_NONE_USER: true
+          CHANGE_MINIKUBE_NONE_USER: "true"
         run: |
           # https://github.com/kubernetes/minikube/issues/3323#issuecomment-472916946
           sudo -E minikube start --vm-driver=none --kubernetes-version v1.16.2 --extra-config kubeadm.ignore-preflight-errors=SystemVerification
@@ -41,3 +41,6 @@ jobs:
 
       - name: Create the ingress resource
         run: kubectl apply -f example-ingress.yaml
+
+      - name: Verify web app is reachable at the minikube IP
+        run: curl http://hello-world.info --resolve hello-world.info:$(sudo minikube ip)
