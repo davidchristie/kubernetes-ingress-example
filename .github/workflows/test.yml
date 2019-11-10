@@ -45,5 +45,8 @@ jobs:
       - name: Create the ingress resource
         run: kubectl apply -f example-ingress.yaml
 
-      - name: Verify web app is reachable at the minikube IP
-        run: curl http://hello-world.info --resolve hello-world.info:$(sudo minikube ip)
+      - name: Verify ingress is reachable at the minikube IP
+        run: |
+          local ip=$(sudo minikube ip)
+          echo "minikube IP: $ip"
+          curl $ip
