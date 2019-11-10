@@ -17,3 +17,9 @@ jobs:
       - name: Verify system has virtualization support enabled
         run: |
           egrep -q 'vmx|svm' /proc/cpuinfo && echo yes || echo no
+
+        # If you are running within a VM, your hypervisor does not allow nested virtualization.
+        # You will need to use the None (bare-metal) driver.
+      - name: Start Minikube and create a cluster
+        run: |
+          sudo minikube start --vm-driver=none
