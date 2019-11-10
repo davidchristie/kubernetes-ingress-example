@@ -19,6 +19,7 @@ jobs:
 
         # If you are running within a VM, your hypervisor does not allow nested virtualization.
         # You will need to use the None (bare-metal) driver.
+        # The none driver requires minikube to be run as root, until #3760 can be addressed.
         # https://minikube.sigs.k8s.io/docs/start/linux/
       - name: Start minikube and create a cluster
         env:
@@ -33,4 +34,4 @@ jobs:
         run: kubectl get pods -A
 
       - name: Enable the NGINX ingress controller
-        run: minikube addons enable ingress
+        run: sudo minikube addons enable ingress
