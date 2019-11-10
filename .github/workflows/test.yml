@@ -20,6 +20,7 @@ jobs:
 
         # If you are running within a VM, your hypervisor does not allow nested virtualization.
         # You will need to use the None (bare-metal) driver.
-      - name: Start Minikube and create a cluster
+      - name: Start minikube and create a cluster
         run: |
-          sudo minikube start --vm-driver=none
+          # https://github.com/kubernetes/minikube/issues/3323#issuecomment-472916946
+          sudo -E minikube start --vm-driver=none --kubernetes-version v1.16.2 --extra-config kubeadm.ignore-preflight-errors=SystemVerification
