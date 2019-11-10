@@ -66,9 +66,9 @@ jobs:
           set +e
           export ip=$(sudo minikube ip)
           echo "minikube IP: $ip"
-          until $(curl --fail --head --header "Host: hello-world.info/v2" --output /dev/null --silent $ip); do
+          until $(curl --fail --head --header "Host: hello-world.info" --output /dev/null --silent $ip/v2); do
             echo "..."
             sleep 5
           done
-          curl --header "Host: hello-world.info/v2" $ip
+          curl --header "Host: hello-world.info" $ip/v2
         timeout-minutes: 5
