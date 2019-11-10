@@ -22,7 +22,9 @@ jobs:
         # https://minikube.sigs.k8s.io/docs/start/linux/
       - name: Start minikube and create a cluster
         env:
-          - CHANGE_MINIKUBE_NONE_USER=true
+          # To use kubectl or minikube commands as your own user, you may need to relocate them.
+          # This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
+          CHANGE_MINIKUBE_NONE_USER: true
         run: |
           # https://github.com/kubernetes/minikube/issues/3323#issuecomment-472916946
           sudo -E minikube start --vm-driver=none --kubernetes-version v1.16.2 --extra-config kubeadm.ignore-preflight-errors=SystemVerification
