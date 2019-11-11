@@ -72,3 +72,8 @@ jobs:
           done
           curl --header "Host: hello-world.info" $ip/v2
         timeout-minutes: 5
+
+        # TLS/HTTPS
+
+      - name: Generate a CA private key
+        run: openssl genrsa -out ca.key 2048
