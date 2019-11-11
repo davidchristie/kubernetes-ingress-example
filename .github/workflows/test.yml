@@ -47,7 +47,7 @@ jobs:
           kubectl expose deployment web2 --target-port=8080 --type=NodePort
 
       - name: Create the ingress resource
-        run: kubectl apply -f example-ingress.yaml
+        run: kubectl apply -f example-ingress.yml
 
       - name: Verify web service is reachable
         run: |
@@ -91,3 +91,6 @@ jobs:
             --cert=ca.crt \
             --key=ca.key \
             --namespace=default
+
+      - name: Create CA issuer referencing the secret
+        run: kubectl apply -f ca-issuer.yml
