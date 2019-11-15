@@ -85,18 +85,5 @@ jobs:
       - name: Install the CustomResourceDefinitions and cert-manager
         run: kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.11.0/cert-manager.yaml
 
-      - name: Generate a CA private key
-        run: openssl genrsa -out ca.key 2048
-
-      - name: Create a self signed certificate
-        run: openssl req -x509 -new -nodes -key ca.key -subj "/CN=hello-world.info" -days 3650 -reqexts v3_req -extensions v3_ca -out ca.crt
-
-      - name: Save the signing key pair as a secret
-        run: |
-          kubectl create secret tls ca-key-pair \
-            --cert=ca.crt \
-            --key=ca.key \
-            --namespace=default
-
-      - name: Create CA issuer referencing the secret
-        run: kubectl apply -f ca-issuer.yml
+      - name: Create self signing issuer resource
+        run: kubectl apply -f selfsigning-issuer.yml
