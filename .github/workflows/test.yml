@@ -79,6 +79,12 @@ jobs:
         # - https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html
         # - https://docs.cert-manager.io/en/latest/tasks/issuers/setup-ca.html
 
+      - name: Create a namespace to run cert-manager in
+        run: kubectl create namespace cert-manager
+
+      - name: Install the CustomResourceDefinitions and cert-manager
+        run: kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.11.0/cert-manager.yaml
+
       - name: Generate a CA private key
         run: openssl genrsa -out ca.key 2048
 
